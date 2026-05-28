@@ -477,7 +477,7 @@ function renderModais() {
   <div style="display:flex;gap:8px">
     <select class="inp" id="ag-cli" onchange="window._autoEnd(this.value)" style="flex:1">
       <option value="">Selecionar...</option>
-      ${clientes.map(c=><option value="${c._id}" ${d.clienteId===c._id?"selected":""}>${esc(c.nome)}</option>).join("")}
+      ${clientes.map(c=>`<option value="${c._id}" ${d.clienteId===c._id?"selected":""}>${esc(c.nome)}</option>`).join("")}
     </select>
 
     <button
