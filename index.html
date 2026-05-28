@@ -726,8 +726,38 @@ select.inp{cursor:pointer}
 
 @media(max-width:600px){
   .form-grid2{grid-template-columns:1fr}
-  .add-item-row{grid-template-columns:1fr 1fr}
-  .topbar{height:auto;padding:10px 16px}
+
+  .add-item-row{
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+
+  .add-item-row .btn-primary{
+    width:100%;
+    height:44px !important;
+  }
+
+  .modal{
+    width:95%;
+    padding:20px;
+    max-height:90vh;
+    overflow-y:auto;
+  }
+
+  .card-row{
+    flex-direction:column;
+  }
+
+  .card-right{
+    width:100%;
+    align-items:flex-start;
+    text-align:left;
+  }
+
+  .topbar{
+    height:auto;
+    padding:10px 16px;
+  }
 }
 </style>
 </head>
