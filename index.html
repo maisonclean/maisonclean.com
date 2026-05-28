@@ -111,6 +111,66 @@ onAuthStateChanged(auth, u => {
     usuario = null;
   }
   render();
+         function renderRelatorios() {
+const hoje = new Date().toISOString().slice(0,10);
+const mes  = hoje.slice(0,7);
+
+const agHoje = agendamentos.filter(a => a.data === hoje && a.status !== "cancelado");
+const agMes  = agendamentos.filter(a => a.data?.startsWith(mes) && a.status !== "cancelado");
+
+const totalHoje = agHoje.reduce((s,a)=>s+Number(a.valorTotal||0),0);
+const totalMes  = agMes.reduce((s,a)=>s+Number(a.valorTotal||0),0);
+
+// ranking clientes
+const ranking = {};
+agMes.forEach(a=>{
+if(a.status==="cancelado") return;
+ranking[a.clienteId] = (ranking[a.clienteId]||0) + Number(a.valorTotal||0);
+});
+
+const topClientes = Object.entries(ranking)
+.map(([id,valor])=>{
+const c = clientes.find(x=>x._id===id);
+return { nome: c?.nome || "Cliente", valor };
+})
+.sort((a,b)=>b.valor-a.valor)
+.slice(0,5);
+
+return `
+
+  <div class="page-head">
+    <h2>Relatórios</h2>
+  </div>
+
+  <div class="grid4">
+    <div class="card">
+      <p class="meta">Faturamento Hoje</p>
+      <h2>${fmtMoeda(totalHoje)}</h2>
+      <p class="meta">${agHoje.length} serviços</p>
+    </div>
+
+```
+<div class="card">
+  <p class="meta">Faturamento do Mês</p>
+  <h2>${fmtMoeda(totalMes)}</h2>
+  <p class="meta">${agMes.length} serviços</p>
+</div>
+```
+
+  </div>
+
+  <h3 class="section-title">Top Clientes</h3>
+
+  <div class="card">
+    ${topClientes.map(c=>`
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <span>${c.nome}</span>
+        <strong style="color:#10b981">${fmtMoeda(c.valor)}</strong>
+      </div>
+    `).join("")}
+  </div>
+  `;
+}
 });
 
 async function login() {
@@ -183,8 +243,12 @@ function renderApp() {
   const isTec = usuario.role === "tecnico";
   const abas  = isTec
     ? [{id:"servicos",label:"📋 Meus Serviços"}]
-    : [{id:"agenda",label:"📅 Agenda"},{id:"clientes",label:"👥 Clientes"},{id:"dashboard",label:"📊 Dashboard"}];
-
+: [
+{id:"agenda",label:"📅 Agenda"},
+{id:"clientes",label:"👥 Clientes"},
+{id:"dashboard",label:"📊 Dashboard"},
+{id:"relatorios",label:"📈 Relatórios"}
+];
   return `
   <div class="shell">
     <header class="topbar">
@@ -205,7 +269,7 @@ function renderApp() {
       ${abaAtual==="servicos" ? renderServicos() : ""}
       ${abaAtual==="agenda"   ? renderAgenda()   : ""}
       ${abaAtual==="clientes" ? renderClientes() : ""}
-      ${abaAtual==="dashboard"? renderDash()     : ""}
+      ${abaAtual==="relatorios"? renderRelatorios() : ""}
     </main>
   </div>
   ${renderModais()}`;
@@ -489,10 +553,25 @@ function renderModais() {
     </button>
   </div>
 </div>
-            <option value="">Selecionar...</option>
-            ${clientes.map(c=>`<option value="${c._id}" ${d.clienteId===c._id?"selected":""}>${esc(c.nome)}</option>`).join("")}
-          </select>
-        </div>
+            <div class="field">
+  <label>CLIENTE</label>
+
+  <div style="display:flex;gap:8px">
+    <select class="inp" id="ag-cli" onchange="window._autoEnd(this.value)" style="flex:1">
+      <option value="">Selecionar...</option>
+      ${clientes.map(c=>`
+        <option value="${c._id}" ${d.clienteId===c._id?"selected":""}>
+          ${esc(c.nome)}
+        </option>
+      `).join("")}
+    </select>
+```
+<button type="button" class="btn-primary sm" onclick="window._novoCli()">
+  + Cliente
+</button>
+```
+  </div>
+</div>
         <div class="field"><label>STATUS</label>
           <select class="inp" id="ag-status">
             ${Object.entries(STATUS).map(([k,v])=>`<option value="${k}" ${(d.status||"agendado")===k?"selected":""}>${v.label}</option>`).join("")}
