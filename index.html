@@ -243,9 +243,33 @@ function cardServico(ag) {
         <p class="card-title">${itens.map(i=>i.ico).join(" ")} ${itens.length} item(ns)</p>
         <p class="meta">📍 ${esc(ag.enderecoServico||"Endereço não informado")}</p>
       </div>
-      <div class="card-right">
-        <p class="valor">${fmtMoeda(ag.valorTotal)}</p>
-        <button class="btn-ghost sm" onclick="this.closest('.card').querySelector('.card-detail').classList.toggle('hidden')">Ver serviços</button>
+    <div class="card-right">
+  <p class="valor">${fmtMoeda(ag.valorTotal)}</p>
+
+  <select class="inp" style="min-width:140px"
+    onchange="window._altStatus('${ag._id}', this.value)">
+    
+    <option value="agendado" ${ag.status==="agendado"?"selected":""}>Agendado</option>
+    <option value="concluido" ${ag.status==="concluido"?"selected":""}>Concluído</option>
+    <option value="cancelado" ${ag.status==="cancelado"?"selected":""}>Cancelado</option>
+  </select>
+
+  <select class="inp"
+    onchange="window._altPag('${ag._id}', this.value)">
+    
+    ${PAGAMENTOS.map(p=>`
+      <option value="${p.id}"
+        ${ag.formaPagamento===p.id?"selected":""}>
+        ${p.ico} ${p.label}
+      </option>
+    `).join("")}
+  </select>
+
+  <button class="btn-ghost sm"
+    onclick="this.closest('.card').querySelector('.card-detail').classList.toggle('hidden')">
+    Ver serviços
+  </button>
+onclick="this.closest('.card').querySelector('.card-detail').classList.toggle('hidden')">Ver serviços</button>
       </div>
     </div>
     <div class="card-detail hidden">
@@ -447,8 +471,24 @@ function renderModais() {
     <div class="modal">
       <div class="modal-head"><h2>${ed?"Editar":"Novo"} Agendamento</h2><button onclick="window._fecharModal()">✕</button></div>
       <div class="form-grid2">
-        <div class="field"><label>CLIENTE</label>
-          <select class="inp" id="ag-cli" onchange="window._autoEnd(this.value)">
+       <div class="field">
+  <label>CLIENTE</label>
+
+  <div style="display:flex;gap:8px">
+    <select class="inp" id="ag-cli" onchange="window._autoEnd(this.value)" style="flex:1">
+      <option value="">Selecionar...</option>
+      ${clientes.map(c=><option value="${c._id}" ${d.clienteId===c._id?"selected":""}>${esc(c.nome)}</option>).join("")}
+    </select>
+
+    <button
+      type="button"
+      class="btn-primary sm"
+      onclick="window._novoCli()"
+    >
+      + Cliente
+    </button>
+  </div>
+</div>
             <option value="">Selecionar...</option>
             ${clientes.map(c=>`<option value="${c._id}" ${d.clienteId===c._id?"selected":""}>${esc(c.nome)}</option>`).join("")}
           </select>
@@ -538,7 +578,18 @@ function bindEvents() {
     render();
   };
 
-  window._remItem = idx => { itensForm.splice(idx,1); render(); };
+window._altStatus = async (id, status) => {
+  await update(ref(db, agendamentos/${id}), {
+    status
+  });
+};
+
+window._altPag = async (id, formaPagamento) => {
+  await update(ref(db, agendamentos/${id}), {
+    formaPagamento
+  });
+};
+
 
   window._salvarAg = async (fbId) => {
     const cliId = document.getElementById("ag-cli").value;
