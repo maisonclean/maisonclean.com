@@ -269,7 +269,7 @@ function cardServico(ag) {
     onclick="this.closest('.card').querySelector('.card-detail').classList.toggle('hidden')">
     Ver serviços
   </button>
-onclick="this.closest('.card').querySelector('.card-detail').classList.toggle('hidden')">Ver serviços</button>
+
       </div>
     </div>
     <div class="card-detail hidden">
@@ -579,13 +579,13 @@ function bindEvents() {
   };
 
 window._altStatus = async (id, status) => {
-  await update(ref(db, agendamentos/${id}), {
+  await update(ref(db, `agendamentos/${id}`), {
     status
   });
 };
 
 window._altPag = async (id, formaPagamento) => {
-  await update(ref(db, agendamentos/${id}), {
+  await update(ref(db, `agendamentos/${id}`), {
     formaPagamento
   });
 };
