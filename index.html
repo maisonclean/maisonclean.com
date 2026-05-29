@@ -166,8 +166,8 @@ function renderLogin() {
   return `
   <div class="login-wrap">
     <div class="login-box">
-      <div class="login-logo">🧹</div>
-      <h1 class="login-title">CleanPro</h1>
+      <div class="login-logo">🛋️</div>
+      <h1 class="login-title">MaisonClean</h1>
       <p class="login-sub">Sistema de Agendamento</p>
       <div class="field"><label>E-MAIL</label><input id="inp-email" type="email" placeholder="seu@email.com" onkeydown="if(event.key==='Enter')window._login()"/></div>
       <div class="field"><label>SENHA</label><input id="inp-senha" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')window._login()"/></div>
@@ -183,14 +183,14 @@ function renderApp() {
   const isTec = usuario.role === "tecnico";
   const abas  = isTec
     ? [{id:"servicos",label:"📋 Meus Serviços"}]
-    : [{id:"agenda",label:"📅 Agenda"},{id:"clientes",label:"👥 Clientes"},{id:"dashboard",label:"📊 Dashboard"}];
-
+    : [{id:"agenda",label:"📅 Agenda"},{id:"clientes",label:"👥 Clientes"},{id:"dashboard",label:"📊 Dashboard"}],{id:"relatorios",label:"📈 Relatórios"};
+         ${abaAtual==="relatorios"? renderRelatorios() : ""}
   return `
   <div class="shell">
     <header class="topbar">
       <div class="topbar-left">
-        <span class="logo-ico">🧹</span>
-        <span class="logo-txt">CleanPro</span>
+        <span class="logo-ico">🛋️</span>
+        <span class="logo-txt">MaisonClean</span>
         <span class="badge-rt">🟢 TEMPO REAL</span>
       </div>
       <nav class="nav">
