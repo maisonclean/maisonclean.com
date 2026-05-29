@@ -182,13 +182,14 @@ function renderLogin() {
 function renderApp() {
   const isTec = usuario.role === "tecnico";
   const abas  = isTec
-    const abas  = isTec
-  ? [{id:"servicos",label:"📋 Meus Serviços"}]
+         ? [
+      { id: "servicos", label: "📋 Meus Serviços" }
+    ]
   : [
-      {id:"agenda",label:"📅 Agenda"},
-      {id:"clientes",label:"👥 Clientes"},
-      {id:"dashboard",label:"📊 Dashboard"},
-      {id:"relatorios",label:"📈 Relatórios"}
+      { id: "agenda", label: "📅 Agenda" },
+      { id: "clientes", label: "👥 Clientes" },
+      { id: "dashboard", label: "📊 Dashboard" },
+      { id: "relatorios", label: "📈 Relatórios" }
     ];
          return 
   <div class="shell">
