@@ -182,9 +182,14 @@ function renderLogin() {
 function renderApp() {
   const isTec = usuario.role === "tecnico";
   const abas  = isTec
-    ? [{id:"servicos",label:"📋 Meus Serviços"}]
-    : [{id:"agenda",label:"📅 Agenda"},{id:"clientes",label:"👥 Clientes"},{id:"dashboard",label:"📊 Dashboard"}],{id:"relatorios",label:"📈 Relatórios"};
-         ${abaAtual==="relatorios"? renderRelatorios() : ""}
+    const abas  = isTec
+  ? [{id:"servicos",label:"📋 Meus Serviços"}]
+  : [
+      {id:"agenda",label:"📅 Agenda"},
+      {id:"clientes",label:"👥 Clientes"},
+      {id:"dashboard",label:"📊 Dashboard"},
+      {id:"relatorios",label:"📈 Relatórios"}
+    ];
          return 
   <div class="shell">
     <header class="topbar">
@@ -206,7 +211,8 @@ function renderApp() {
       ${abaAtual==="agenda"   ? renderAgenda()   : ""}
       ${abaAtual==="clientes" ? renderClientes() : ""}
       ${abaAtual==="dashboard"? renderDash()     : ""}
-    </main>
+      ${abaAtual==="relatorios"? renderRelatorios() : ""}
+         </main>
   </div>
   ${renderModais()}`;
 }
