@@ -191,7 +191,7 @@ function renderApp() {
       { id: "dashboard", label: "📊 Dashboard" },
       { id: "relatorios", label: "📈 Relatórios" }
     ];
-         return 
+     return `
   <div class="shell">
     <header class="topbar">
       <div class="topbar-left">
@@ -207,6 +207,7 @@ function renderApp() {
         <button class="btn-ghost sm" onclick="window._logout()">Sair</button>
       </div>
     </header>
+`;
     <main class="main">
       ${abaAtual==="servicos" ? renderServicos() : ""}
       ${abaAtual==="agenda"   ? renderAgenda()   : ""}
