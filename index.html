@@ -252,6 +252,24 @@ function cardServico(ag) {
       <div class="divider"></div>
       ${itens.map(it=>`<div class="item-row">${it.ico} <span>${it.qtd}x ${esc(it.label)}</span> <span class="tag-blue">${esc(it.tipoLabel)}</span></div>`).join("")}
       ${ag.observacoes?`<p class="obs">💬 ${esc(ag.observacoes)}</p>`:""}
+   <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+  
+  <select class="inp" style="max-width:150px"
+    onchange="window._altStatus('${ag._id}', this.value)">
+    ${Object.entries(STATUS).map(([k,v])=>
+      `<option value="${k}" ${ag.status===k?"selected":""}>${v.label}</option>`
+    ).join("")}
+  </select>
+  <select class="inp" style="max-width:180px"
+    onchange="window._altPagamento('${ag._id}', this.value)">
+    <option value="">Pagamento</option>
+    ${PAGAMENTOS.map(p=>
+      `<option value="${p.id}" ${ag.formaPagamento===p.id?"selected":""}>
+        ${p.ico} ${p.label}
+      </option>`
+    ).join("")}
+  </select>
+</div>
     </div>
   </div>`;
 }
