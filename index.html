@@ -207,7 +207,6 @@ function renderApp() {
 
     </div>
   `;
-}
       <nav class="nav">
         ${abas.map(a=>`<button class="nav-btn ${abaAtual===a.id?"active":""}" onclick="window._aba('${a.id}')">${a.label}</button>`).join("")}
       </nav>
