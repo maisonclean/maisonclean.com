@@ -181,24 +181,33 @@ function renderLogin() {
 // ── APP SHELL ──────────────────────────────────────
 function renderApp() {
   const isTec = usuario.role === "tecnico";
-  const abas  = isTec
-         ? [
-      { id: "servicos", label: "📋 Meus Serviços" }
-    ]
-  : [
-      { id: "agenda", label: "📅 Agenda" },
-      { id: "clientes", label: "👥 Clientes" },
-      { id: "dashboard", label: "📊 Dashboard" },
-      { id: "relatorios", label: "📈 Relatórios" }
-    ];
-     return `
-  <div class="shell">
-    <header class="topbar">
-      <div class="topbar-left">
-        <span class="logo-ico">🛋️</span>
-        <span class="logo-txt">MaisonClean</span>
-        <span class="badge-rt">🟢 TEMPO REAL</span>
-      </div>
+
+  const abas = isTec
+    ? [{ id: "servicos", label: "📋 Meus Serviços" }]
+    : [
+        { id: "agenda", label: "📅 Agenda" },
+        { id: "clientes", label: "👥 Clientes" },
+        { id: "dashboard", label: "📊 Dashboard" },
+        { id: "relatorios", label: "📈 Relatórios" }
+      ];
+
+  return `
+    <div class="shell">
+      <header class="topbar">
+        ...
+      </header>
+
+      <main class="main">
+        ${abaAtual==="servicos" ? renderServicos() : ""}
+        ${abaAtual==="agenda" ? renderAgenda() : ""}
+        ${abaAtual==="clientes" ? renderClientes() : ""}
+        ${abaAtual==="dashboard" ? renderDash() : ""}
+        ${abaAtual==="relatorios" ? renderRelatorios() : ""}
+      </main>
+
+    </div>
+  `;
+}
       <nav class="nav">
         ${abas.map(a=>`<button class="nav-btn ${abaAtual===a.id?"active":""}" onclick="window._aba('${a.id}')">${a.label}</button>`).join("")}
       </nav>
