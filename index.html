@@ -184,7 +184,8 @@ function renderApp() {
   const abas  = isTec
     ? [{id:"servicos",label:"📋 Meus Serviços"}]
     : [{id:"agenda",label:"📅 Agenda"},{id:"clientes",label:"👥 Clientes"},{id:"dashboard",label:"📊 Dashboard"}],{id:"relatorios",label:"📈 Relatórios"};
-         return `
+         ${abaAtual==="relatorios"? renderRelatorios() : ""}
+         return 
   <div class="shell">
     <header class="topbar">
       <div class="topbar-left">
