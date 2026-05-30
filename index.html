@@ -183,8 +183,7 @@ return `
   ${renderModais()}
 `;
 }
-
-// ── ABA SERVIÇOS (técnico) ─────────────────────────
+         // ── ABA SERVIÇOS (técnico) ─────────────────────────
 function renderServicos() {
   const ags = agendamentos
     .filter(a => (!filtStatus||a.status===filtStatus) && (!filtData||a.data===filtData))
